@@ -1,7 +1,41 @@
-<div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
-
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
+<div class="container dark-mode">
+  <input id="folder-chooser" type="file" webkitdirectory directory multiple />
+  <table id="rec-table">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">File Name</th>
+      <th scope="col">Game Name</th>
+      <th scope="col">Player</th>
+      <th scope="col">Map</th>
+      <th scope="col">Version</th>
+      <th scope="col">Modified Date</th>
+    </tr>
+    <tr *ngFor="let replay of replays; let i = index;">
+      <td>{{i + 1}}</td>
+      <td>{{replay.fileName}}</td>
+      <td style="text-align: center;">{{replay.replay.setting.gameName == '' ? 'Quick Search' :
+        replay.replay.setting.gameName}}</td>
+      <td>
+        <div *ngFor="let team of replay.replay.teams">
+          <p style="font-size: 30px; margin: auto; margin-top: 10px;">Team {{team.id}}</p>
+          <div style="margin-bottom: 5px;" *ngFor="let member of team.members; ">
+            <div style="display: flex; flex-direction: row; align-items: flex-start;"
+              *ngIf="getPlayerBySlotId(replay.replay, member) as player">
+              <img style="width: 60px; height: auto;" [src]="'assets/flags/' + player.civInfo.urlRectanle">
+              <p class="player-name" style="margin-left: 10px;">{{player.clan != '' ? '[' + player.clan + '] ' : ''}}
+                {{player.playerName}}
+                {{IsResign(replay, player.slotId) ? '(OUT)' : ''}}</p>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td style="text-align: center;">
+        <img style="width: 150px; height: auto; vertical-align: middle;"
+          [src]="'assets/' + replay.replay.setting.mapInfo.imagepath + '.png'">
+        <p style="line-height: 0px;">{{replay.replay.setting.mapName}}</p>
+      </td>
+      <td style="text-align: center;">{{replay.replay.exeVersion}}</td>
+      <td>{{replay.lastModifiedDate}}</td>
+    </tr>
+  </table>
 </div>

@@ -1,3 +1,18 @@
-:host {
-  
+.dark-mode {
+    background-color: black;
+    color: white;
+}
+
+table,
+th,
+td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+
+.player-name {
+    font-size: 20px;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
 }
